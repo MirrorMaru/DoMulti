@@ -8,16 +8,18 @@ public class Character
     private string name;
     private int initiative;
     private IntPtr handle;
+    private string version;
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     public static extern IntPtr FindWindow(string classname, string windowName);
 
-    public Character(string n, int i)
+    public Character(string n, int i, string v)
     {
         name = n;
         initiative = i;
+        version = v;
 
-        string windowName = name + " - Dofus 2.67.10.14";
+        string windowName = name + " - Dofus " + version;
 
         Process[] processes = Process.GetProcesses();
 

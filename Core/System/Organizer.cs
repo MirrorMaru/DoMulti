@@ -6,52 +6,30 @@ public class Organizer
 {
     private List<Character> allChar;
     private Form1 form;
+    private VersionFinder vFinder;
+    private CharacterFinder cFinder;
+    private string version;
 
     public Organizer(Form1 f)
     {
         allChar = new List<Character>();
         form = f;
+        vFinder = new VersionFinder();
+        version = vFinder.GetVersion();
+
         Update();
 
         Console.WriteLine("Organizer : "+form);
     }
 
-    public void Add()
-    {
-        if (form.GetData().Count > 0)
-        {
-            foreach (var VARIABLE in form.GetData())
-            {
-                if (allChar.Find(obj => obj.Name == VARIABLE.Key) == null)
-                {
-                    allChar.Add(new Character(VARIABLE.Key, VARIABLE.Value));
-                }
-            }
-
-            Organize();
-        }
-    }
-
-    public void Remove()
-    {
-        if (form.GetData().Count > 0)
-        {
-            foreach (var VARIABLE in allChar.ToList())
-            {
-                if (!form.GetData().ContainsKey(VARIABLE.Name))
-                {
-                    allChar.Remove(VARIABLE);
-                }
-            }
-        }
-        
-        Organize();
-    }
-
     public void Update()
     {
-        Add();
-        Remove();
+        allChar = new List<Character>();
+        foreach (var VARIABLE in form.GetData())
+        {
+            if(VARIABLE.isActivated)
+                allChar.Add(new Character(VARIABLE.Name, VARIABLE.Initiative, version));
+        }
         Organize();
     }
 
@@ -62,4 +40,5 @@ public class Organizer
     }
 
     public List<Character> AllChar => allChar;
+    public string Version => version;
 }
